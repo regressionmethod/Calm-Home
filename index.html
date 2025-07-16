@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calm Home Environment Setup Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .value-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .room-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .room-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .room-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            border-color: #667eea;
+        }
+
+        .room-card.active {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .room-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .room-icon {
+            font-size: 2rem;
+        }
+
+        .room-description {
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+
+        .setup-panel {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .setup-panel.active {
+            display: block;
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .panel-title {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .setup-section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+
+        .checklist li {
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checklist li:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: translateX(5px);
+        }
+
+        .checklist li.checked {
+            background: rgba(102, 187, 106, 0.1);
+            border-left-color: #66bb6a;
+        }
+
+        .checklist li.checked .checkbox {
+            background: #66bb6a;
+            color: white;
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #667eea;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .tip-box {
+            background: linear-gradient(45deg, #66bb6a, #4caf50);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .warning-box {
+            background: linear-gradient(45deg, #ffa726, #ff9800);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .shopping-list {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .shopping-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .shopping-category {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+        }
+
+        .category-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .shopping-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .shopping-item:last-child {
+            border-bottom: none;
+        }
+
+        .price-range {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .quick-wins {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .wins-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .win-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .win-card:hover {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .win-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .win-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .win-description {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .progress-tracker {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .progress-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        .room-progress {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 0.9rem;
+        }
+
+        .room-progress:last-child {
+            border-bottom: none;
+        }
+
+        .room-status {
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status-complete {
+            background: #66bb6a;
+            color: white;
+        }
+
+        .status-partial {
+            background: #ffa726;
+            color: white;
+        }
+
+        .status-pending {
+            background: #e9ecef;
+            color: #7f8c8d;
+        }
+
+        .print-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .print-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .room-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .shopping-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .wins-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .print-button {
+                bottom: 20px;
+                right: 20px;
+                padding: 12px 20px;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            
+            .print-button {
+                display: none;
+            }
+            
+            .room-card, .setup-panel, .shopping-list, .quick-wins, .progress-tracker {
+                background: white;
+                box-shadow: none;
+                border: 1px solid #ddd;
+                page-break-inside: avoid;
+                margin-bottom: 20px;
+            }
+            
+            .setup-panel {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏡 Calm Home Environment Setup Guide</h1>
+            <p class="subtitle">Transform chaos into calm — one room at a time</p>
+            <div class="value-badge">Value: $32 • Regression-Resistant Home</div>
+        </div>
+
+        <div class="progress-tracker">
+            <div class="progress-title">🎯 Setup Progress</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="overall-progress"></div>
+            </div>
+            <div class="progress-text" id="progress-text">0% Complete</div>
+            
+            <div style="margin-top: 15px;">
+                <div class="room-progress">
+                    <span>Living Room</span>
+                    <span class="room-status status-pending" id="living-status">0/8</span>
+                </div>
+                <div class="room-progress">
+                    <span>Entry/Door</span>
+                    <span class="room-status status-pending" id="entry-status">0/6</span>
+                </div>
+                <div class="room-progress">
+                    <span>Kitchen</span>
+                    <span class="room-status status-pending" id="kitchen-status">0/5</span>
+                </div>
+                <div class="room-progress">
+                    <span>Bedroom</span>
+                    <span class="room-status status-pending" id="bedroom-status">0/5</span>
+                </div>
+                <div class="room-progress">
+                    <span>Calm Zone</span>
+                    <span class="room-status status-pending" id="calm-status">0/7</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="quick-wins">
+            <h2 style="color: #2c3e50; margin-bottom: 15px;">🚀 Quick Wins (Start Here - 15 Minutes)</h2>
+            <div class="wins-grid">
+                <div class="win-card" onclick="toggleQuickWin(this)">
+                    <div class="win-icon">🔇</div>
+                    <div class="win-title">Reduce Noise</div>
+                    <div class="win-description">Turn off background TV/music in main areas</div>
+                </div>
+                <div class="win-card" onclick="toggleQuickWin(this)">
+                    <div class="win-icon">🧸</div>
+                    <div class="win-title">Clear Toy Chaos</div>
+                    <div class="win-description">Put away half the toys scattered around</div>
+                </div>
+                <div class="win-card" onclick="toggleQuickWin(this)">
+                    <div class="win-icon">💡</div>
+                    <div class="win-title">Dim the Lights</div>
+                    <div class="win-description">Use softer lighting in evening hours</div>
+                </div>
+                <div class="win-card" onclick="toggleQuickWin(this)">
+                    <div class="win-icon">🛏️</div>
+                    <div class="win-title">Create Rest Spot</div>
+                    <div class="win-description">Set up one quiet corner with blanket</div>
+                </div>
+            </div>
+        </div>
+
+        <h2 style="text-align: center; color: white; margin-bottom: 30px; font-size: 1.8rem;">Choose a Room to Transform</h2>
+
+        <div class="room-grid">
+            <div class="room-card" onclick="showRoom('living')">
+                <div class="room-title">
+                    <span class="room-icon">🛋️</span>
+                    Living Room
+                </div>
+                <div class="room-description">
+                    Main hub where regression often starts. Control stimulation and create clear boundaries.
+                </div>
+                <div style="font-weight: bold; color: #667eea;">8 Setup Items</div>
+            </div>
+
+            <div class="room-card" onclick="showRoom('entry')">
+                <div class="room-title">
+                    <span class="room-icon">🚪</span>
+                    Entry/Door Area
+                </div>
+                <div class="room-description">
+                    Critical zone for barking, jumping, and guest chaos. Set up for calm arrivals.
+                </div>
+                <div style="font-weight: bold; color: #667eea;">6 Setup Items</div>
+            </div>
+
+            <div class="room-card" onclick="showRoom('kitchen')">
+                <div class="room-title">
+                    <span class="room-icon">🍽️</span>
+                    Kitchen/Dining
+                </div>
+                <div class="room-description">
+                    Food anxiety and meal chaos triggers. Create structure around feeding time.
+                </div>
+                <div style="font-weight: bold; color: #667eea;">5 Setup Items</div>
+            </div>
+
+            <div class="room-card" onclick="showRoom('bedroom')">
+                <div class="room-title">
+                    <span class="room-icon">🛏️</span>
+                    Bedroom/Sleep
+                </div>
+                <div class="room-description">
+                    Night anxiety and separation issues. Build calming bedtime routines.
+                </div>
+                <div style="font-weight: bold; color: #667eea;">5 Setup Items</div>
+            </div>
+
+            <div class="room-card" onclick="showRoom('calm')">
+                <div class="room-title">
+                    <span class="room-icon">🧘</span>
+                    Dedicated Calm Zone
+                </div>
+                <div class="room-description">
+                    Your dog's reset sanctuary. The most important space for regression recovery.
+                </div>
+                <div style="font-weight: bold; color: #667eea;">7 Setup Items</div>
+            </div>
+        </div>
+
+        <!-- Living Room Setup -->
+        <div id="living-setup" class="setup-panel">
+            <div class="panel-title">
+                <span>🛋️</span>
+                Living Room Calm Setup
+            </div>
+
+            <div class="setup-section">
+                <div class="section-title">
+                    <span>📺</span>
+                    Noise & Stimulation Control
+                </div>
+                <ul class="checklist" data-room="living">
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Turn off background TV when not actively watching</div>
+                    </li>
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Remove or quiet squeaky/noisy toys during calm hours</div>
+                    </li>
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Close blinds/curtains to reduce visual triggers (people, dogs, cars)</div>
+                    </li>
+                </ul>
+                <div class="tip-box">
+                    <span>💡</span>
+                    <div><strong>Quick Tip:</strong> Use white noise or calming music instead of silence. Complete quiet can make dogs more alert to sounds.</div>
+                </div>
+            </div>
+
+            <div class="setup-section">
+                <div class="section-title">
+                    <span>🏠</span>
+                    Space & Layout
+                </div>
+                <ul class="checklist" data-room="living">
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Create clear pathways — remove obstacles that create frustration</div>
+                    </li>
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Designate one specific spot as "dog's space" (mat, bed, or corner)</div>
+                    </li>
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Remove or secure tempting items (shoes, remotes, food)</div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="setup-section">
+                <div class="section-title">
+                    <span>🌸</span>
+                    Calming Enhancements
+                </div>
+                <ul class="checklist" data-room="living">
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Add lavender or chamomile scent (dog-safe diffuser or spray)</div>
+                    </li>
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Use softer lighting in evening (lamps vs overhead lights)</div>
+                    </li>
+                </ul>
+                <div class="warning-box">
+                    <span>⚠️</span>
+                    <div><strong>Avoid:</strong> Essential oils like tea tree, eucalyptus, or citrus — these can be overwhelming or toxic to dogs.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Entry/Door Setup -->
+        <div id="entry-setup" class="setup-panel">
+            <div class="panel-title">
+                <span>🚪</span>
+                Entry/Door Area Setup
+            </div>
+
+            <div class="setup-section">
+                <div class="section-title">
+                    <span>🔔</span>
+                    Doorbell & Arrival Management
+                </div>
+                <ul class="checklist" data-room="entry">
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Move dog's view away from main window/door (use baby gate or furniture)</div>
+                    </li>
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Create a "greeting station" 6+ feet from the door</div>
+                    </li>
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Keep leash and treats easily accessible near the door</div>
+                    </li>
+                </ul>
+                <div class="tip-box">
+                    <span>💡</span>
+                    <div><strong>Pro Tip:</strong> Practice calm door approaches when no one is visiting. Ring the doorbell yourself and reward calm behavior.</div>
+                </div>
+            </div>
+
+            <div class="setup-section">
+                <div class="section-title">
+                    <span>👥</span>
+                    Guest Preparation
+                </div>
+                <ul class="checklist" data-room="entry">
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Place a mat or designated spot where dog should wait during greetings</div>
+                    </li>
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Prepare a "guest kit": treats, backup leash, and instruction card</div>
+                    </li>
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Post a small reminder sign for yourself: "Calm energy first"</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Kitchen Setup -->
+        <div id="kitchen-setup" class="setup-panel">
+            <div class="panel-title">
+                <span>🍽️</span>
+                Kitchen/Dining Setup
+            </div>
+
+            <div class="setup-section">
+                <div class="section-title">
+                    <span>🥣</span>
+                    Feeding Zone Structure
+                </div>
+                <ul class="checklist" data-room="kitchen">
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Create a consistent feeding spot away from high-traffic areas</div>
+                    </li>
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Use elevated bowls or a feeding mat to define the space</div>
+                    </li>
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Remove food temptations from dog's reach (counter, floor, trash)</div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="setup-section">
+                <div class="section-title">
+                    <span>⏰</span>
+                    Routine & Timing
+                </div>
+                <ul class="checklist" data-room="kitchen">
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Feed at the same times daily to reduce food anxiety</div>
+                    </li>
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Create a pre-meal calm ritual (sit, wait, gentle release cue)</div>
+                    </li>
+                </ul>
+                <div class="tip-box">
+                    <span>💡</span>
+                    <div><strong>Meal Tip:</strong> Use feeding time as a daily reset opportunity. Practice calm commands before meals when motivation is highest.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bedroom Setup -->
+        <div id="bedroom-setup" class="setup-panel">
+            <div class="panel-title">
+                <span>🛏️</span>
+                Bedroom/Sleep Setup
+            </div>
+
+            <div class="setup-section">
+                <div class="section-title">
+                    <span>🌙</span>
+                    Bedtime Routine
+                </div>
+                <ul class="checklist" data-room="bedroom">
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Dim lights 30 minutes before desired sleep time</div>
+                    </li>
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Create a consistent "wind down" routine (same order, same timing)</div>
+                    </li>
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Use white noise or calming sounds to mask outside triggers</div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="setup-section">
+                <div class="section-title">
+                    <span>🛏️</span>
+                    Sleep Environment
+                </div>
+                <ul class="checklist" data-room="bedroom">
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Provide a comfortable, consistent sleep surface (bed, crate, or mat)</div>
+                    </li>
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Ensure room temperature is comfortable (65-70°F ideal)</div>
+                    </li>
+                </ul>
+                <div class="warning-box">
+                    <span>⚠️</span>
+                    <div><strong>Sleep Regression Alert:</strong> Changes in sleep location or routine often trigger behavioral regression during the day.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calm Zone Setup -->
+        <div id="calm-setup" class="setup-panel">
+            <div class="panel-title">
+                <span>🧘</span>
+                Dedicated Calm Zone Setup
+            </div>
+
+            <div class="setup-section">
+                <div class="section-title">
+                    <span>📍</span>
+                    Location & Layout
+                </div>
+                <ul class="checklist" data-room="calm">
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Choose a quiet corner away from main foot traffic</div>
+                    </li>
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Use a specific mat, bed, or blanket to define the space</div>
+                    </li>
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Ensure easy access but also provides some visual privacy</div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="setup-section">
+                <div class="section-title">
+                    <span>🌿</span>
+                    Sensory Calming Elements
+                </div>
+                <ul class="checklist" data-room="calm">
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Add dog-safe calming scent (lavender spray on blanket or diffuser)</div>
+                    </li>
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Use soft lighting or natural light (avoid harsh overhead lights)</div>
+                    </li>
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Include a comfort item (favorite blanket, soft toy, or your old shirt)</div>
+                    </li>
+                    <li onclick="toggleCheckbox(this)">
+                        <div class="checkbox"></div>
+                        <div>Keep calm zone free of exciting toys or stimulating objects</div>
+                    </li>
+                </ul>
+                <div class="tip-box">
+                    <span>💡</span>
+                    <div><strong>Reset Zone:</strong> This is where you'll do your daily 10-minute reset ritual. Make it the most peaceful spot in your home.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="shopping-list">
+            <h2 style="color: #2c3e50; margin-bottom: 15px;">🛒 Calm Home Shopping List</h2>
+            <p style="color: #7f8c8d; margin-bottom: 20px;">Budget-friendly items to transform your space (total cost: $50-150)</p>
+            
+            <div class="shopping-grid">
+                <div class="shopping-category">
+                    <div class="category-title">
+                        <span>🌸</span>
+                        Scent & Aromatherapy
+                    </div>
+                    <div class="shopping-item">
+                        <span>Dog-safe lavender spray</span>
+                        <span class="price-range">$8-15</span>
+                    </div>
+                    <div class="shopping-item">
+                        <span>Pet-safe essential oil diffuser</span>
+                        <span class="price-range">$15-25</span>
+                    </div>
+                    <div class="shopping-item">
+                        <span>Chamomile room spray</span>
+                        <span class="price-range">$6-12</span>
+                    </div>
+                </div>
+
+                <div class="shopping-category">
+                    <div class="category-title">
+                        <span>🔊</span>
+                        Sound Management
+                    </div>
+                    <div class="shopping-item">
+                        <span>White noise machine</span>
+                        <span class="price-range">$20-40</span>
+                    </div>
+                    <div class="shopping-item">
+                        <span>Bluetooth speaker for calming music</span>
+                        <span class="price-range">$15-30</span>
+                    </div>
+                    <div class="shopping-item">
+                        <span>Sound dampening curtains</span>
+                        <span class="price-range">$25-50</span>
+                    </div>
+                </div>
+
+                <div class="shopping-category">
+                    <div class="category-title">
+                        <span>🛏️</span>
+                        Comfort & Layout
+                    </div>
+                    <div class="shopping-item">
+                        <span>Non-slip dog mat or rug</span>
+                        <span class="price-range">$10-25</span>
+                    </div>
+                    <div class="shopping-item">
+                        <span>Soft throw blanket</span>
+                        <span class="price-range">$8-20</span>
+                    </div>
+                    <div class="shopping-item">
+                        <span>Baby gates for space management</span>
+                        <span class="price-range">$20-45</span>
+                    </div>
+                    <div class="shopping-item">
+                        <span>Blackout or privacy window film</span>
+                        <span class="price-range">$10-20</span>
+                    </div>
+                </div>
+
+                <div class="shopping-category">
+                    <div class="category-title">
+                        <span>💡</span>
+                        Lighting
+                    </div>
+                    <div class="shopping-item">
+                        <span>Dimmable table lamps</span>
+                        <span class="price-range">$15-35</span>
+                    </div>
+                    <div class="shopping-item">
+                        <span>Warm LED bulbs (2700K)</span>
+                        <span class="price-range">$8-15</span>
+                    </div>
+                    <div class="shopping-item">
+                        <span>String lights (warm white)</span>
+                        <span class="price-range">$10-20</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip-box" style="margin-top: 20px;">
+                <span>💰</span>
+                <div><strong>Budget Tip:</strong> Start with just 2-3 items. A $15 lavender spray and $20 white noise machine can create immediate calm improvements.</div>
+            </div>
+        </div>
+    </div>
+
+    <button class="print-button" onclick="window.print()">
+        🖨️ Print Setup Guide
+    </button>
+
+    <script>
+        let totalItems = 31; // Total checklist items across all rooms
+        let completedItems = 0;
+        let roomCounts = {
+            living: { completed: 0, total: 8 },
+            entry: { completed: 0, total: 6 },
+            kitchen: { completed: 0, total: 5 },
+            bedroom: { completed: 0, total: 5 },
+            calm: { completed: 0, total: 7 }
+        };
+
+        function showRoom(roomType) {
+            // Hide all setup panels
+            const allPanels = document.querySelectorAll('.setup-panel');
+            allPanels.forEach(panel => {
+                panel.classList.remove('active');
+            });
+
+            // Remove active class from all room cards
+            const allCards = document.querySelectorAll('.room-card');
+            allCards.forEach(card => {
+                card.classList.remove('active');
+            });
+
+            // Show selected room panel
+            const selectedPanel = document.getElementById(roomType + '-setup');
+            if (selectedPanel) {
+                selectedPanel.classList.add('active');
+                
+                // Add active class to clicked card
+                event.target.closest('.room-card').classList.add('active');
+                
+                // Scroll to setup panel
+                selectedPanel.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
+                });
+            }
+        }
+
+        function toggleCheckbox(listItem) {
+            const checkbox = listItem.querySelector('.checkbox');
+            const room = listItem.closest('.checklist').getAttribute('data-room');
+            
+            if (listItem.classList.contains('checked')) {
+                // Unchecking
+                listItem.classList.remove('checked');
+                checkbox.textContent = '';
+                completedItems--;
+                roomCounts[room].completed--;
+            } else {
+                // Checking
+                listItem.classList.add('checked');
+                checkbox.textContent = '✓';
+                completedItems++;
+                roomCounts[room].completed++;
+            }
+            
+            updateProgress();
+            updateRoomStatus(room);
+        }
+
+        function updateProgress() {
+            const percentage = Math.round((completedItems / totalItems) * 100);
+            const progressFill = document.getElementById('overall-progress');
+            const progressText = document.getElementById('progress-text');
+            
+            progressFill.style.width = percentage + '%';
+            progressText.textContent = percentage + '% Complete (' + completedItems + '/' + totalItems + ')';
+        }
+
+        function updateRoomStatus(room) {
+            const statusElement = document.getElementById(room + '-status');
+            const completed = roomCounts[room].completed;
+            const total = roomCounts[room].total;
+            
+            statusElement.textContent = completed + '/' + total;
+            
+            // Update status class
+            statusElement.className = 'room-status';
+            if (completed === total) {
+                statusElement.classList.add('status-complete');
+            } else if (completed > 0) {
+                statusElement.classList.add('status-partial');
+            } else {
+                statusElement.classList.add('status-pending');
+            }
+        }
+
+        function toggleQuickWin(winCard) {
+            winCard.style.background = winCard.style.background ? '' : 'linear-gradient(45deg, #66bb6a, #4caf50)';
+            winCard.style.color = winCard.style.color ? '' : 'white';
+            winCard.style.transform = winCard.style.transform ? '' : 'scale(0.95)';
+            
+            setTimeout(() => {
+                winCard.style.transform = '';
+            }, 200);
+        }
+
+        // Add some motivational messages based on progress
+        function showMotivationalMessage() {
+            const percentage = Math.round((completedItems / totalItems) * 100);
+            let message = '';
+            
+            if (percentage === 0) {
+                message = 'Ready to transform your home? Start with the Quick Wins! 🚀';
+            } else if (percentage < 25) {
+                message = 'Great start! Every small change makes a difference. 🌱';
+            } else if (percentage < 50) {
+                message = 'You\'re making real progress! Your dog will notice these changes. 📈';
+            } else if (percentage < 75) {
+                message = 'More than halfway there! The calm is building. 🏡';
+            } else if (percentage < 100) {
+                message = 'Almost done! You\'re creating an amazing environment. 🎯';
+            } else {
+                message = 'Incredible! You\'ve created a regression-resistant home! 🏆';
+            }
+            
+            console.log(message); // In a real app, this could show as a toast notification
+        }
+
+        // Auto-save progress to localStorage (simulated)
+        function saveProgress() {
+            const progressData = {
+                completedItems,
+                roomCounts,
+                checkedItems: []
+            };
+            
+            // Get all checked items
+            document.querySelectorAll('.checklist li.checked').forEach((item, index) => {
+                progressData.checkedItems.push(index);
+            });
+            
+            localStorage.setItem('calmHomeProgress', JSON.stringify(progressData));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('calmHomeProgress');
+            if (saved) {
+                const data = JSON.parse(saved);
+                // In a real implementation, this would restore the checked state
+                console.log('Progress loaded:', data);
+            }
+        }
+
+        // Initialize
+        loadProgress();
+        updateProgress();
+        Object.keys(roomCounts).forEach(room => {
+            updateRoomStatus(room);
+        });
+
+        // Save progress when items are checked
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.checklist li')) {
+                setTimeout(saveProgress, 100); // Save after state change
+                setTimeout(showMotivationalMessage, 200);
+            }
+        });
+
+        // Add some interactive enhancements
+        document.querySelectorAll('.room-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                if (!this.classList.contains('active')) {
+                    this.style.transform = 'translateY(0)';
+                }
+            });
+        });
+
+        // Show welcome message
+        setTimeout(() => {
+            showMotivationalMessage();
+        }, 1000);
+    </script>
+</body>
+</html>
+                
